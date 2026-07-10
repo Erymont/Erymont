@@ -1,8 +1,15 @@
-# Erymont
+<p align="center">
+  <img src="assets/logo.png" alt="Erymont Logo" width="250">
+</p>
 
-A modern, powerful, and lightweight Linux environment management CLI.
+<h1 align="center">Erymont</h1>
+
+<p align="center">
+  A modern Linux container management CLI.
+</p>
 
 ---
+
 
 ## ✨ Features
 
@@ -13,6 +20,7 @@ A modern, powerful, and lightweight Linux environment management CLI.
 - 💾 Backup & Restore
 - 🩺 Built-in diagnostics
 - ⚙️ Easy configuration
+  
 
 ---
 
@@ -31,13 +39,13 @@ A modern, powerful, and lightweight Linux environment management CLI.
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/erymont.git
+git clone https://github.com/Erymont/Erymont.git
 ```
 
 Go to the project:
 
 ```bash
-cd erymont
+cd Erymont
 ```
 
 Make it executable:
@@ -92,21 +100,6 @@ Open a shell:
 | `ery config` | Open configuration |
 | `ery update` | Update Erymont |
 | `ery version` | Show version |
-
----
-
-## 📂 Project Structure
-
-```text
-erymont/
-├── ery
-├── README.md
-├── LICENSE
-├── core/
-├── config/
-├── assets/
-└── docs/
-```
 
 ---
 
