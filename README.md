@@ -1,3 +1,13 @@
+<p align="center">
+  <img src="assets/logo.png" alt="Erymont Logo" width="180">
+</p>
+
+<h1 align="center">Erymont</h1>
+
+<p align="center">
+  A modern Linux container management CLI.
+</p>
+
 # Erymont
 
 Erymont is a branded cloud installer and management suite packaged for fast local use from a single archive.
