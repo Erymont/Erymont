@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$SCRIPT_DIR"
+
+source "$ROOT_DIR/config/colors.sh"
+source "$ROOT_DIR/config/config.sh"
+
+show_logo() {
+  clear
+  if [[ -f "$ROOT_DIR/assets/logo.txt" ]]; then
+    cat "$ROOT_DIR/assets/logo.txt"
+    printf '
+'
+  fi
+  printf "%b╔══════════════════════════════════════════════════════╗%b
+" "$PURPLE" "$NC"
+  printf "%b║%b  %s%b  %b%s%b  %b║%b
+" "$PURPLE" "$NC" "$BOLD" "$APP_NAME" "$DIM" "$APP_TAGLINE" "$NC" "$PURPLE" "$NC"
+  printf "%b╚══════════════════════════════════════════════════════╝%b
+" "$PURPLE" "$NC"
+}
+
+pause() { read -r -p "Press Enter to continue..." _; }
+
+run_file() {
+  local rel="$1"
+  local target="$ROOT_DIR/$rel"
+  if [[ ! -f "$target" ]]; then
+    printf "%b[ERROR]%b Missing module: %s
+" "$RED" "$NC" "$rel" >&2
+    return 1
+  fi
+  bash "$target"
+}
+
+show_help() {
+  cat <<'EOF'
+Erymont launcher
+
+Usage:
+  ery                Open the main dashboard
+  ery panel          Open panel installers
+  ery wings          Open wings management
+  ery themes         Open theme management
+  ery vm             Open VM setup tools
+  ery tools          Open the utility toolbox
+  ery infra          Open infrastructure installers
+  ery help           Show this help
+  ery version        Show version
+EOF
+}
+
+dashboard() {
+  while true; do
+    show_logo
+    printf "%b╭─ Modules ───────────────────────────────────────────╮%b
+" "$CYAN" "$NC"
+    printf "%b│%b 1)%b Panel installers%b
+" "$CYAN" "$NC" "$GREEN" "$NC"
+    printf "%b│%b 2)%b Wings management%b
+" "$CYAN" "$NC" "$GREEN" "$NC"
+    printf "%b│%b 3)%b Theme management%b
+" "$CYAN" "$NC" "$GREEN" "$NC"
+    printf "%b│%b 4)%b VM setup tools%b
+" "$CYAN" "$NC" "$GREEN" "$NC"
+    printf "%b│%b 5)%b Infrastructure installers%b
+" "$CYAN" "$NC" "$GREEN" "$NC"
+    printf "%b│%b 6)%b Utility toolbox%b
+" "$CYAN" "$NC" "$GREEN" "$NC"
+    printf "%b│%b 0)%b Exit%b
+" "$CYAN" "$NC" "$RED" "$NC"
+    printf "%b╰────────────────────────────────────────────────────╯%b
+" "$CYAN" "$NC"
+    printf "%bSelect an option:%b " "$WHITE" "$NC"
+    read -r choice || return 0
+    case "$choice" in
+      1) run_file "panel/1.sh"; pause ;;
+      2) run_file "wings/run.sh"; pause ;;
+      3) run_file "thame/run.sh"; pause ;;
+      4) run_file "setup vm/menu.sh"; pause ;;
+      5) run_file "Extras/run.sh"; pause ;;
+      6) run_file "toolbox/run.sh"; pause ;;
+      0|q|Q) exit 0 ;;
+      *) printf "%b[WARN]%b Unknown option. Try 1-6 or 0.
+" "$YELLOW" "$NC"; sleep 1 ;;
+    esac
+  done
+}
+
+case "${1:-}" in
+  ""|dashboard) dashboard ;;
+  help|-h|--help) show_help ;;
+  version|-v|--version) printf "%s %s
+" "$APP_NAME" "$APP_VERSION" ;;
+  panel) run_file "panel/1.sh" ;;
+  wings) run_file "wings/run.sh" ;;
+  themes|theme) run_file "thame/run.sh" ;;
+  vm|setup-vm) run_file "setup vm/menu.sh" ;;
+  tools|toolbox) run_file "toolbox/run.sh" ;;
+  infra) run_file "Extras/run.sh" ;;
+  *) printf "%b[ERROR]%b Unknown command: %s
+" "$RED" "$NC" "$1" >&2
+     printf "%bHint:%b use %shelp%b to see valid commands.
+" "$YELLOW" "$NC" "$GREEN" "$NC" >&2
+     exit 1
+     ;;
+esac
